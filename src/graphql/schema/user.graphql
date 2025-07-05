@@ -1,0 +1,38 @@
+enum Role {
+  USER
+  ADMIN
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  picture: String
+  isGoogleAuthenticated: Boolean!
+  role: Role!
+  createdAt: String!
+  tickets: [Ticket!]!
+  events: [Event!]!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type Query {
+  users: [User!]!
+  user(id: ID!): User
+  me: User
+}
