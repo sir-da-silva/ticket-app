@@ -12,8 +12,8 @@ input CreateTicketInput {
 }
 
 type Query {
-  tickets: [Ticket!]!
   ticket(id: ID!): Ticket
+  tickets(eventId: ID!): [Ticket!]!
   myTickets: [Ticket!]!
 }
 

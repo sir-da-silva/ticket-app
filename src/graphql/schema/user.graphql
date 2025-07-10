@@ -12,13 +12,24 @@ type User {
   role: Role!
   createdAt: String!
   tickets: [Ticket!]!
-  events: [Event!]!
+  events: [Events!]!
 }
 
-input CreateUserInput {
+input InitSingUpInput {
   name: String!
   email: String!
   password: String!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  password: String
+}
+
+input CompleteSignUpInput {
+  key: String!
+  code: String!
 }
 
 input LoginInput {
@@ -32,7 +43,15 @@ type AuthPayload {
 }
 
 type Query {
-  users: [User!]!
-  user(id: ID!): User
   me: User
+  user(id: ID!): User
+  users: [User!]!
+  login(input: LoginInput!): AuthPayload
+}
+
+type Mutation {
+  initSignUp(input: InitSingUpInput!): Boolean!
+  completeSignUp(input: CompleteSignUpInput!): AuthPayload!
+  updateUser(input: UpdateUserInput!): AuthPayload!
+  deleteUser(id: ID!): Boolean!
 }

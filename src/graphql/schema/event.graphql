@@ -5,7 +5,6 @@ type Event {
   location: String!
   date: String!
   createdBy: User!
-  tickets: [Ticket!]!
 }
 
 input CreateEventInput {
@@ -16,10 +15,13 @@ input CreateEventInput {
 }
 
 type Query {
-  events: [Event!]!
   event(id: ID!): Event
+  events: [Event!]!
+  myEvents: [Event!]!
 }
 
 type Mutation {
   createEvent(input: CreateEventInput!): Event!
+  updateEvent(input: CreateEventInput!): Event!
+  deleteEvent(id: ID!): Boolean!
 }

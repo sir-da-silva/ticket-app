@@ -1,21 +1,25 @@
 fetch("http://localhost:4000/graphql", {
   method: "POST",
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({
     query: `
-      query {
-        events {
-          id
-          title
-          date
-          location
+      mutation ($input: CreateUserInput!) {
+        createUser(input: $input) {
+          token
+          user {
+            email
+            name
+          }
         }
       }
-    `
-  })
+    `,
+    variables: {
+      input: { name: "Test", email: "me@gmail.com", password: "123" },
+    },
+  }),
 })
-  .then(res => res.json())
-  .then(data => console.log("Résultat :", data.data.events))
-  .catch(err => console.error("Erreur :", err));
+  .then((res) => res.json())
+  .then((data) => console.log("Résultat :", data))
+  .catch((err) => console.error("Erreur :", err));
