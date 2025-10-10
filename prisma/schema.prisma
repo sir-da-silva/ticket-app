@@ -54,8 +54,8 @@ model Ticket {
   used      Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
 
   event     Event    @relation(fields: [eventId], references: [id])
   eventId   String

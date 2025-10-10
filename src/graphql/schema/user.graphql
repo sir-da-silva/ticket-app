@@ -11,11 +11,9 @@ type User {
   isGoogleAuthenticated: Boolean!
   role: Role!
   createdAt: String!
-  tickets: [Ticket!]!
-  events: [Events!]!
 }
 
-input InitSingUpInput {
+input InitSignUpInput {
   name: String!
   email: String!
   password: String!
@@ -28,7 +26,7 @@ input UpdateUserInput {
 }
 
 input CompleteSignUpInput {
-  key: String!
+  email: String!
   code: String!
 }
 
@@ -50,7 +48,7 @@ type Query {
 }
 
 type Mutation {
-  initSignUp(input: InitSingUpInput!): Boolean!
+  initSignUp(input: InitSignUpInput!): Boolean!
   completeSignUp(input: CompleteSignUpInput!): AuthPayload!
   updateUser(input: UpdateUserInput!): AuthPayload!
   deleteUser(id: ID!): Boolean!

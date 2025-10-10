@@ -1,5 +1,6 @@
 import { appendFileSync } from "fs";
 
+/** Save an error to /errors.log file */
 const logError = (err: Error) => {
   const date = new Date().toISOString();
   const row =
@@ -15,16 +16,20 @@ const logError = (err: Error) => {
   }
 };
 
+/** Returns an error that can be shown to the user */
 const safeError = (msg: string) => {
   return new Error(`§${msg}`);
 };
 
+/** Parse error to return a safe error or "500 - Server error" */
 const errorParser = (err: Error) => {
-  logError(err);
-
-  return err.message.startsWith("§")
-    ? new Error(err.message.slice(1))
-    : new Error("500 - Server error");
+  if (err.message.startsWith("§")) {
+    return new Error(err.message.slice(1));
+  } else {
+    logError(err);
+    return new Error("500 - Erreur du serveur !");
+  }
 };
+
 export { logError, safeError };
 export default errorParser;

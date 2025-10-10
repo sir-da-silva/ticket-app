@@ -24,7 +24,7 @@ export type AuthPayload = {
 
 export type CompleteSignUpInput = {
   code: Scalars['String']['input'];
-  key: Scalars['String']['input'];
+  email: Scalars['String']['input'];
 };
 
 export type CreateEventInput = {
@@ -48,7 +48,7 @@ export type Event = {
   title: Scalars['String']['output'];
 };
 
-export type InitSingUpInput = {
+export type InitSignUpInput = {
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -99,7 +99,7 @@ export type MutationDeleteUserArgs = {
 
 
 export type MutationInitSignUpArgs = {
-  input: InitSingUpInput;
+  input: InitSignUpInput;
 };
 
 
@@ -266,7 +266,7 @@ export type ResolversTypes = {
   CreateTicketInput: CreateTicketInput;
   Event: ResolverTypeWrapper<Event>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
-  InitSingUpInput: InitSingUpInput;
+  InitSignUpInput: InitSignUpInput;
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -286,7 +286,7 @@ export type ResolversParentTypes = {
   CreateTicketInput: CreateTicketInput;
   Event: Event;
   ID: Scalars['ID']['output'];
-  InitSingUpInput: InitSingUpInput;
+  InitSignUpInput: InitSignUpInput;
   LoginInput: LoginInput;
   Mutation: {};
   Query: {};

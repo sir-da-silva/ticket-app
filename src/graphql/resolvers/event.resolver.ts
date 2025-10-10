@@ -1,5 +1,6 @@
 import { Context } from "../../types";
 import { Resolvers } from "../../types/graphql";
+import errorParser, { safeError } from "../../utils/errorParser";
 
 export const resolvers: Resolvers<Context> = {
   Query: {
@@ -12,24 +13,24 @@ export const resolvers: Resolvers<Context> = {
         where: { id: args.id },
       });
     },
+    myEvents: async (_, {}, { prisma, user }) => {
+      if (!user) throw safeError("401 - Non autorisé !");
+
+      return prisma.event.findMany({ where: { createdById: user.id } });
+    },
   },
 
   Mutation: {
-    createEvent: async (_, args, { prisma, user }) => {
-      if (!user) throw new Error("Non authentifié");
+    createEvent: async (_, { input }, { prisma, user }) => {
+      try {
+        if (!user) throw safeError("401 - Non autorisé !");
 
-      const picture = "";
+        // verifications
 
-      return prisma.event.create({
-        data: {
-          title: args.input.title,
-          description: args.input.description,
-          picture: picture,
-          location: args.input.location,
-          date: new Date(args.input.date),
-          createdBy: { connect: { id: user.id } },
-        },
-      });
+        return prisma.event.create({ data: input });
+      } catch (err) {
+        throw errorParser(err as Error);
+      }
     },
   },
 };

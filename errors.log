@@ -1,0 +1,119 @@
+[2025-07-11T01:12:07.689Z] Message: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 3,
+    "inclusive": true,
+    "path": [
+      "name"
+    ],
+    "message": "§Test"
+  },
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 8,
+    "inclusive": true,
+    "path": [
+      "password"
+    ],
+    "message": "Too small: expected string to have >=8 characters"
+  }
+]
+Stack: ZodError: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 3,
+    "inclusive": true,
+    "path": [
+      "name"
+    ],
+    "message": "§Test"
+  },
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 8,
+    "inclusive": true,
+    "path": [
+      "password"
+    ],
+    "message": "Too small: expected string to have >=8 characters"
+  }
+]
+    at C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\src\graphql\resolvers\user.resolver.ts:45:26
+    at Generator.next (<anonymous>)
+    at fulfilled (C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\src\graphql\resolvers\user.resolver.ts:38:58)
+
+[2025-07-11T01:13:21.713Z] Message: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 3,
+    "inclusive": true,
+    "path": [
+      "name"
+    ],
+    "message": "§Test"
+  },
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 8,
+    "inclusive": true,
+    "path": [
+      "password"
+    ],
+    "message": "§Test 2"
+  }
+]
+Stack: ZodError: [
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 3,
+    "inclusive": true,
+    "path": [
+      "name"
+    ],
+    "message": "§Test"
+  },
+  {
+    "origin": "string",
+    "code": "too_small",
+    "minimum": 8,
+    "inclusive": true,
+    "path": [
+      "password"
+    ],
+    "message": "§Test 2"
+  }
+]
+    at C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\src\graphql\resolvers\user.resolver.ts:45:26
+    at Generator.next (<anonymous>)
+    at fulfilled (C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\src\graphql\resolvers\user.resolver.ts:38:58)
+
+[2025-07-11T02:10:07.800Z] Message: 
+Invalid `prisma.user.create()` invocation in
+C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\src\graphql\resolvers\user.resolver.ts:78:42
+
+  75   throw safeError("Code de verification invalide !");
+  76 } else {
+  77   // save user and create auth token
+→ 78   const user = await prisma.user.create(
+Unique constraint failed on the fields: (`email`)
+Stack: PrismaClientKnownRequestError: 
+Invalid `prisma.user.create()` invocation in
+C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\src\graphql\resolvers\user.resolver.ts:78:42
+
+  75   throw safeError("Code de verification invalide !");
+  76 } else {
+  77   // save user and create auth token
+→ 78   const user = await prisma.user.create(
+Unique constraint failed on the fields: (`email`)
+    at Xn.handleRequestError (C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\generated\prisma\runtime\library.js:124:7459)
+    at Xn.handleAndLogRequestError (C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\generated\prisma\runtime\library.js:124:6784)
+    at Xn.request (C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\generated\prisma\runtime\library.js:124:6491)
+    at l (C:\Users\my pc\Documents\Projet Xama\backend-ticket-app\generated\prisma\runtime\library.js:133:9812)
+

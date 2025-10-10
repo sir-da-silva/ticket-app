@@ -4,7 +4,7 @@ type Ticket {
   used: Boolean!
   createdAt: String!
   event: Event!
-  user: User!
+  user: User
 }
 
 input CreateTicketInput {
