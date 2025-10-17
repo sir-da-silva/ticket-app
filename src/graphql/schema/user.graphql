@@ -3,6 +3,12 @@ enum Role {
   ADMIN
 }
 
+enum UserBadge {
+  BRONZE
+  SILVER
+  GOLD
+}
+
 type User {
   id: ID!
   name: String!
@@ -10,7 +16,14 @@ type User {
   picture: String
   isGoogleAuthenticated: Boolean!
   role: Role!
-  createdAt: String!
+  createdAt: DateTime!
+  badge: UserBadge!
+  walletBalance: Float
+  phone: String
+  whatsapp: String
+  facebook: String
+  instagram: String
+  tiktok: String
 }
 
 input InitSignUpInput {
@@ -22,12 +35,21 @@ input InitSignUpInput {
 input UpdateUserInput {
   name: String
   email: String
-  password: String
+  phone: String
+  whatsapp: String
+  facebook: String
+  instagram: String
+  tiktok: String
 }
 
 input CompleteSignUpInput {
   email: String!
   code: String!
+}
+
+input ChangePasswordInput {
+  oldPassword: String!
+  newPassword: String!
 }
 
 input LoginInput {
@@ -51,5 +73,6 @@ type Mutation {
   initSignUp(input: InitSignUpInput!): Boolean!
   completeSignUp(input: CompleteSignUpInput!): AuthPayload!
   updateUser(input: UpdateUserInput!): AuthPayload!
+  changePassword(input: ChangePasswordInput!): Boolean!
   deleteUser(id: ID!): Boolean!
 }

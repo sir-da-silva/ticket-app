@@ -1,31 +1,34 @@
-import { PrismaClient } from "@prisma/client";
-import { Context } from "../../types";
 import { v4 as uuidv4 } from "uuid";
+import { Context } from "../../types";
+import { Resolvers } from "../../types/graphql";
 
-export const resolvers = {
+export const resolvers: Resolvers<Context> = {
   Query: {
-    tickets: async (_: any, __: any, { prisma }: { prisma: PrismaClient }) => {
+    ticket: async (_, { id }, { prisma }) => {
+      return prisma.ticket.findFirst({
+        where: { id },
+        include: { event: true },
+      });
+    },
+    tickets: async (_, { eventId }, { prisma }) => {
       return prisma.ticket.findMany({
-        include: { user: true, event: true },
+        where: { eventId },
+        include: { user: true, event: { include: { createdBy: true } } },
       });
     },
 
-    myTickets: async (_: any, __: any, { prisma, user }: Context) => {
+    myTickets: async (_, __, { prisma, user }) => {
       if (!user) throw new Error("Non authentifié");
 
       return prisma.ticket.findMany({
         where: { userId: user.id },
-        include: { event: true },
+        include: { event: { include: { createdBy: true } } },
       });
     },
   },
 
   Mutation: {
-    createTicket: async (
-      _: any,
-      args: { input: { eventId: string } },
-      { prisma, user }: Context
-    ) => {
+    createTicket: async (_, { input }, { prisma, user }) => {
       if (!user) throw new Error("Non authentifié");
 
       // Générer un code unique (vous pouvez le remplacer par votre propre logique visuelle)
@@ -34,7 +37,7 @@ export const resolvers = {
       return prisma.ticket.create({
         data: {
           code,
-          event: { connect: { id: args.input.eventId } },
+          event: { connect: { id: input.eventId } },
           user: { connect: { id: user.id } },
         },
         include: {
@@ -44,13 +47,9 @@ export const resolvers = {
       });
     },
 
-    scanTicket: async (
-      _: any,
-      args: { code: string },
-      { prisma }: { prisma: PrismaClient }
-    ) => {
+    scanTicket: async (_, { code }, { prisma }) => {
       const ticket = await prisma.ticket.findUnique({
-        where: { code: args.code },
+        where: { code },
         include: { event: true, user: true },
       });
 

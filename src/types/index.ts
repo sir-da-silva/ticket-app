@@ -1,6 +1,11 @@
-import { PrismaClient, User } from "../../generated/prisma";
+import { PrismaClient, Role } from "../../generated/prisma";
+
+export interface ContextUser {
+  id: string;
+  role: Role;
+}
 
 export interface Context {
   prisma: PrismaClient;
-  user: Partial<User> | null;
+  user: ContextUser | null;
 }

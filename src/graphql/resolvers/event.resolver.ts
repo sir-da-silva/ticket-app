@@ -4,14 +4,13 @@ import errorParser, { safeError } from "../../utils/errorParser";
 
 export const resolvers: Resolvers<Context> = {
   Query: {
+    event: async (_, { id }, { prisma }) => {
+      return prisma.event.findFirst({
+        where: { id },
+      });
+    },
     events: async (_, __, { prisma }) => {
       return prisma.event.findMany();
-    },
-
-    event: async (_, args, { prisma }) => {
-      return prisma.event.findUnique({
-        where: { id: args.id },
-      });
     },
     myEvents: async (_, {}, { prisma, user }) => {
       if (!user) throw safeError("401 - Non autorisé !");
@@ -23,11 +22,15 @@ export const resolvers: Resolvers<Context> = {
   Mutation: {
     createEvent: async (_, { input }, { prisma, user }) => {
       try {
-        if (!user) throw safeError("401 - Non autorisé !");
+        if (!user) throw safeError("Non authentifié");
 
         // verifications
 
-        return prisma.event.create({ data: input });
+        const event = await prisma.event.create({
+          data: { ...input, picture: "", createdById: user.id },
+        });
+
+        return event.id;
       } catch (err) {
         throw errorParser(err as Error);
       }

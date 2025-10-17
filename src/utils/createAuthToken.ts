@@ -1,13 +1,14 @@
 import { sign } from "jsonwebtoken";
 import { User } from "../../generated/prisma";
 import dotenv from "dotenv";
+import { ContextUser } from "../types";
 
 dotenv.config();
 
 const createAuthToken = (user: User) => {
-  const payload = {
+  const payload: ContextUser = {
     id: user.id,
-    email: user.email,
+    role: user.role,
   };
 
   const token = sign(payload, process.env.JWT_SECRET || "", {

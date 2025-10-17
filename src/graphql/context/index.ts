@@ -1,6 +1,6 @@
-import { PrismaClient, User } from "../../../generated/prisma";
+import { PrismaClient } from "../../../generated/prisma";
 import { Request } from "express";
-import { Context } from "../../types";
+import { Context, ContextUser } from "../../types";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
@@ -8,10 +8,10 @@ dotenv.config();
 
 const prisma = new PrismaClient();
 
-const getUserFromToken = (token: string): Partial<User> | null => {
+const getUserFromToken = (token: string): ContextUser | null => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
-    return { id: decoded.id, role: decoded.role };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as ContextUser;
+    return decoded;
   } catch (err) {
     return null;
   }

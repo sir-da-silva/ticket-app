@@ -19,18 +19,34 @@ enum Role {
   ADMIN
 }
 
+enum UserBadge {
+  BRONZE
+  SILVER
+  GOLD
+}
+
+
 model User {
-  id                    String   @id @default(uuid())
+  id                    String        @id @default(uuid())
   name                  String
-  email                 String   @unique
-  isGoogleAuthenticated Boolean  @default(false)
+  email                 String        @unique
+  isGoogleAuthenticated Boolean       @default(false)
   picture               String?
   password              String
-  role                  Role     @default(USER)
-  createdAt             DateTime @default(now())
+  role                  Role          @default(USER)
+  badge                 UserBadge     @default(BRONZE)
+  createdAt             DateTime      @default(now())
+  walletBalance         Float         @default(0)
+  phone                 String?
+  whatsapp              String?
+  facebook              String?
+  instagram             String?
+  tiktok                String?
 
-  events                Event[]  @relation("CreatedEvents")
+  events                Event[]       @relation("CreatedEvents")
   tickets               Ticket[]
+
+  actualities           Actuality[]   @relation("Actualities")
 }
 
 model Event {
@@ -41,6 +57,7 @@ model Event {
   location    String
   date        DateTime
   createdAt   DateTime @default(now())
+  category    String
 
   createdBy   User     @relation("CreatedEvents", fields: [createdById], references: [id])
   createdById String
@@ -49,14 +66,32 @@ model Event {
 }
 
 model Ticket {
-  id        String   @id @default(uuid())
-  code      String   @unique
-  used      Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  code        String   @unique
+  used        Boolean  @default(false)
+  
+  createdAt   DateTime @default(now())
 
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?
+  event       Event    @relation(fields: [eventId], references: [id])
+  eventId     String
 
-  event     Event    @relation(fields: [eventId], references: [id])
-  eventId   String
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      String?
+
+  buyerName   String?
+  buyerPhone  String?
+  buyerEmail  String?
 }
+
+model Actuality {
+  id          String    @id @default(uuid())
+  
+  user        User      @relation("Actualities", fields: [userId], references: [id])
+  userId      String
+
+  picture     String
+  description String?
+  createdAt   DateTime  @default(now())
+}
+
+

@@ -6,6 +6,12 @@ const config: CodegenConfig = {
   generates: {
     "src/types/graphql.ts": {
       plugins: ["typescript", "typescript-resolvers"],
+      config: {
+        enumsAsTypes: true,
+        DateTime: "Date",
+        Date: "Date",
+        maybeValue: "T | null",
+      },
     },
     "./graphql.schema.json": {
       plugins: ["introspection"],

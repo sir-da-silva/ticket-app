@@ -2,13 +2,23 @@ type Ticket {
   id: ID!
   code: String!
   used: Boolean!
-  createdAt: String!
+  createdAt: DateTime!
   event: Event!
   user: User
+  buyerName: String
+  buyerPhone: String
+  buyerEmail: String
+}
+
+input BuyTicketInput {
+  eventId: ID!
 }
 
 input CreateTicketInput {
   eventId: ID!
+  buyerName: String!
+  buyerPhone: String
+  buyerEmail: String
 }
 
 type Query {
@@ -18,6 +28,7 @@ type Query {
 }
 
 type Mutation {
-  createTicket(input: CreateTicketInput!): Ticket!
-  scanTicket(id: ID!): Ticket!
+  buyTicket(input: BuyTicketInput!): Ticket
+  createTicket(input: CreateTicketInput!): Ticket
+  scanTicket(code: String!): Ticket
 }

@@ -1,0 +1,7 @@
+type Actuality {
+  id: ID!
+  user: User!
+  picture: String!
+  description: String
+  createdAt: String!
+}

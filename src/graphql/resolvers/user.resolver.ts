@@ -1,6 +1,5 @@
 import { Resolvers } from "../../types/graphql";
 import { Context } from "../../types";
-import { User } from "../../../generated/prisma";
 import { isEmail, isName, isValidPassword } from "../../utils/validator";
 import errorParser, { safeError } from "../../utils/errorParser";
 import createAuthToken from "../../utils/createAuthToken";
@@ -13,7 +12,11 @@ const PSUM = new Map<
   {
     code: string;
     date: Date;
-    user: User;
+    user: {
+      email: string;
+      name: string;
+      password: string;
+    };
   }
 >();
 
@@ -26,7 +29,10 @@ setInterval(() => {
 
 export const resolvers: Resolvers<Context> = {
   Query: {
-    login: async (__dirname, { input }, { prisma }) => {
+    user: async (_, { id }, { prisma }) => {
+      return prisma.user.findFirst({ where: { id } });
+    },
+    login: async (_, { input }, { prisma }) => {
       try {
         const user = await prisma.user.findFirst({
           where: { email: input.email },
@@ -39,6 +45,7 @@ export const resolvers: Resolvers<Context> = {
           // invalid password
           throw safeError("Mot de passe invalide !");
         } else {
+          user.badge;
           // create auth token
           const token = createAuthToken(user);
 
@@ -73,11 +80,12 @@ export const resolvers: Resolvers<Context> = {
         // set new pending user
         const date = new Date();
         const code = Math.floor(100000 + Math.random() * 900000).toString();
-        const user: User = {
+        const user = {
           name: input.name,
           email: input.email,
           password: password.hash(input.password),
         };
+
         PSUM.set(input.email, { date, code, user });
 
         // send code to user

@@ -2,16 +2,19 @@ type Event {
   id: ID!
   title: String!
   description: String
+  picture: String!
   location: String!
-  date: String!
-  createdBy: User!
+  category: String!
+  date: DateTime!
+  createdBy: User
 }
 
 input CreateEventInput {
   title: String!
   description: String
   location: String!
-  date: String!
+  category: String!
+  date: DateTime!
 }
 
 type Query {
@@ -21,7 +24,7 @@ type Query {
 }
 
 type Mutation {
-  createEvent(input: CreateEventInput!): Event!
-  updateEvent(input: CreateEventInput!): Event!
+  createEvent(input: CreateEventInput!): ID
+  updateEvent(input: CreateEventInput!): Boolean!
   deleteEvent(id: ID!): Boolean!
 }
